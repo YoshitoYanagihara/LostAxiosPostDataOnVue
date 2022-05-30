@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <button @click="addItem">Add Item</button>
+    <button @click="postDirectly">itemsの要素を直接POST</button>
     <div v-for="item in items" :key="item.id">
       <span>{{ item.msg }}</span>
     </div>
@@ -8,6 +9,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'HelloWorld',
   data: function () {
@@ -16,10 +19,25 @@ export default {
     }
   },
   methods: {
+    /**
+     * itemsに要素を適当に追加
+     */
     addItem: function () {
       this.items.push({
         key: this.items.length + 1,
         msg: "hoge"
+      })
+    },
+    /**
+     * itemsの要素を直接使ってPOST
+     */
+    postDirectly: function () {
+      axios.post("http://localhost:8081", {
+        info: {
+          itemsArray: this.items
+        },
+        itemsArray: this.items,
+        msgArray: this.items.map(item => item.msg),
       })
     },
   }
