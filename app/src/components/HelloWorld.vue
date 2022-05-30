@@ -23,6 +23,12 @@ export default {
     return {
       items: [],
       dbName: "test",
+      axios: axios.create(
+        {
+          baseURL: "http://localhost:3000/api",
+          withCredentials: true,
+        }
+      ),
     }
   },
   methods: {
@@ -47,7 +53,7 @@ export default {
         itemsArray: this.items,
         msgArray: this.items.map(item => item.msg),
       }
-      const response = await axios.post("http://localhost:3000/api/hoge", body)
+      const response = await this.axios.post("/hoge", body)
       console.log(response)
     },
     /**
@@ -116,7 +122,7 @@ export default {
         itemsArray: datas,
         msgArray: datas.map(item => item.msg),
       }
-      const response = await axios.post("http://localhost:3000/api/hoge", body)
+      const response = await this.axios.post("/hoge", body)
       console.log(response)
     }
   }
