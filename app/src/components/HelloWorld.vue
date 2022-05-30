@@ -45,21 +45,20 @@ export default {
      * itemsの要素を直接使ってPOST
      */
     postDirectly: async function () {
-      const body = {
-        data: "hoge",
-        info: {
-          itemsArray: this.items
-        },
-        itemsArray: this.items,
-        msgArray: this.items.map(item => item.msg),
-      }
       const response = await this.axios({
         method: 'post',
         url: '/hoge',
         headers: {
           'Content-Type': 'application/json',
         },
-        data: body,
+        data: {
+          data: "hoge",
+          info: {
+            itemsArray: this.items
+          },
+          itemsArray: this.items,
+          msgArray: this.items.map(item => item.msg),
+        },
       })
       console.log(response)
     },
@@ -121,21 +120,20 @@ export default {
         }
       })
       
-      const body = {
-        data: "hoge",
-        info: {
-          itemsArray: datas
-        },
-        itemsArray: datas,
-        msgArray: datas.map(item => item.msg),
-      }
       const response = await this.axios({
         method: 'post',
         url: '/hoge',
         headers: {
           'Content-Type': 'application/json',
         },
-        data: body,
+        data: {
+          data: "hoge",
+          info: {
+            itemsArray: datas
+          },
+          itemsArray: datas,
+          msgArray: datas.map(item => item.msg),
+        }
       })
       console.log(response)
     }
