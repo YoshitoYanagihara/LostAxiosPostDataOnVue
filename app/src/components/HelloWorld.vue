@@ -53,7 +53,11 @@ export default {
         itemsArray: this.items,
         msgArray: this.items.map(item => item.msg),
       }
-      const response = await this.axios.post("/hoge", body)
+      const response = await this.axios({
+        method: 'post',
+        url: '/hoge',
+        data: body,
+      })
       console.log(response)
     },
     /**
@@ -122,7 +126,11 @@ export default {
         itemsArray: datas,
         msgArray: datas.map(item => item.msg),
       }
-      const response = await this.axios.post("/hoge", body)
+      const response = await this.axios({
+        method: 'post',
+        url: '/hoge',
+        data: body,
+      })
       console.log(response)
     }
   }
