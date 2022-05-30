@@ -56,6 +56,9 @@ export default {
       const response = await this.axios({
         method: 'post',
         url: '/hoge',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         data: body,
       })
       console.log(response)
@@ -129,6 +132,9 @@ export default {
       const response = await this.axios({
         method: 'post',
         url: '/hoge',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         data: body,
       })
       console.log(response)
