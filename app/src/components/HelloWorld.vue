@@ -1,8 +1,13 @@
 <template>
   <div class="hello">
-    <button @click="addItem">Item追加</button>
-    <button @click="saveToIndexedDB">IndexedDBに保存</button>
-    <button @click="postDirectly">itemsの要素を直接POST</button>
+    <div>
+      <button @click="addItem">Item追加</button>
+      <button @click="postDirectly">itemsの要素を直接POST</button>
+    </div>
+    <div>
+      <button @click="saveToIndexedDB">IndexedDBに保存</button>
+      <button @click="postIndexedDBData">IndexedDBの情報をPOST</button>
+    </div>
     <div v-for="item in items" :key="item.id">
       <span>{{ item.msg }}</span>
     </div>
@@ -74,6 +79,45 @@ export default {
         console.log("Save To IndexedDB OK.")
         db.close()
       }
+    },
+    /**
+     * IndexedDBのデータをPOST
+     */
+    postIndexedDBData: async function () {
+      const openRequest = indexedDB.open(this.dbName)
+      const self = this
+
+      const datas = []
+      await new Promise(resolve => {
+        openRequest.onsuccess = function (e) {
+          const db = e.target.result
+          const transaction = db.transaction(self.dbName, 'readwrite')
+          const store = transaction.objectStore(self.dbName)
+          const cursorRequest = store.openCursor()
+
+          cursorRequest.onsuccess = function (cursorEvent) {
+            const cursor = cursorEvent.target.result
+            if (cursor) {
+              datas.push(cursor.value)
+              cursor.continue()
+            } else {
+              db.close()
+              resolve()
+            }
+          }
+        }
+      })
+      
+      const body = {
+        data: "hoge",
+        info: {
+          itemsArray: datas
+        },
+        itemsArray: datas,
+        msgArray: datas.map(item => item.msg),
+      }
+      const response = await axios.post("http://localhost:3000/api/hoge", body)
+      console.log(response)
     }
   }
 }
