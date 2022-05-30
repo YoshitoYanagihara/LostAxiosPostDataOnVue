@@ -31,14 +31,17 @@ export default {
     /**
      * itemsの要素を直接使ってPOST
      */
-    postDirectly: function () {
-      axios.post("http://localhost:8081", {
+    postDirectly: async function () {
+      const body = {
+        data: "hoge",
         info: {
           itemsArray: this.items
         },
         itemsArray: this.items,
         msgArray: this.items.map(item => item.msg),
-      })
+      }
+      const response = await axios.post("http://localhost:3000/api/hoge", body)
+      console.log(response)
     },
   }
 }
